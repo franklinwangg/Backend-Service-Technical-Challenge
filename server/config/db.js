@@ -6,11 +6,5 @@ const client = new Client({
 });
 
 client.connect();
-    
-const fetchDatabase = async (req, res) => {
 
-    const result = await client.query("SELECT * FROM weather");
-    return result.rows;
-};
-
-module.exports = fetchDatabase;
+module.exports = client;
