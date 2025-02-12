@@ -1,3 +1,3 @@
 const cliController = require("./controllers/cliController");
 
-startCLI();
+module.exports = cliController;

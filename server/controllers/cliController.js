@@ -15,7 +15,10 @@ function startCLI() {
     console.log("Database Console Started. Type 'help' for commands.");
 
     rl.setPrompt("> ");
+    console.log("1");
     rl.prompt();
+    console.log("2");
+
 
     rl.on("line", async (line) => {
         const command = line.trim().toLowerCase();
@@ -26,16 +29,22 @@ function startCLI() {
                     rl.question("Enter longitude : ", async (lon) => {
                         console.log(`Fetching weather data for Latitude: ${lat}, Longitude: ${lon}...`);
 
-                        // Simulating an Express-like request & response
-                        const req = { query: { lat, lon } };
-                        const res = {
-                            status: (code) => ({
-                                json: (data) => console.log(`Status ${code}:`, data)
+                        fetch(`http://localhost:3001/fetch-weather`, {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json', // Add the content type header
+                            },
+                            body: JSON.stringify({
+                                lat: lat,  // The data to send in the body
+                                lon: lon,
+                            }),
+                        })
+                            .then((response) => {
+                                return response.json();
                             })
-                        };
+                            .then(data => console.log("Fetch weather successful:", data))
+                            .catch(error => console.error("Error uploading file:", error));
 
-                        // Call the weather controller function
-                        await WeatherService.fetchDataFromWebsite(req, res);
                     })
                 });
                 break;
@@ -71,4 +80,4 @@ function startCLI() {
     });
 }
 
-module.exports = {startCLI};
+module.exports = { startCLI };
