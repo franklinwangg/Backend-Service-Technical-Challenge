@@ -4,10 +4,7 @@ const addWeatherData = async (weatherData) => {
     try {
         // const { weather, lat, lon } = req.body;
         const { weather, lat, lon } = weatherData;  // Destructure lat and lon from the body of the request
-
-        // console.log("req : ", req);
-        // console.log("req.weather : ", req.weather);
-
+        
         const result = await client.query("INSERT INTO weather_data (weather, lat, lon) VALUES ($1, $2, $3)", [weather, lat, lon]);
         console.log("result : ", result);
         
@@ -18,8 +15,8 @@ const addWeatherData = async (weatherData) => {
 };
 const getWeatherData = async (req, res) => {
     try {
-        const res = await client.query("SELECT * FROM weather_data");
-        const allWeatherData = res.rows;
+        const result = await client.query("SELECT * FROM weather_data");
+        const allWeatherData = result.rows;
         res.status(200).json(allWeatherData);
     }
     catch (error) {

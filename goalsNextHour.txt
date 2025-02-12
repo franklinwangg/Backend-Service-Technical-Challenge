@@ -1,0 +1,1 @@
+finish the fetchWeather functionality, and make the console print aesthetically

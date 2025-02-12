@@ -22,6 +22,14 @@ app.post('/fetch-weather', async (req, res) => {
     }
 });
 
+app.get('/get-weather', async (req, res) => {
+    try {
+        await weatherService.getPreviousWeatherData(req, res); // Call the weather service function
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to get weather data' });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`App is running on port ${PORT}`);
     cli.startCLI();

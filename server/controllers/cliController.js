@@ -25,35 +25,33 @@ function startCLI() {
 
         switch (command) {
             case "fetchweather":
-                rl.question("Enter latitude : ", (lat) => {
-                    rl.question("Enter longitude : ", async (lon) => {
-                        console.log(`Fetching weather data for Latitude: ${lat}, Longitude: ${lon}...`);
-
-                        fetch(`http://localhost:3001/fetch-weather`, {
-                            method: "POST",
-                            headers: {
-                                'Content-Type': 'application/json', // Add the content type header
-                            },
-                            body: JSON.stringify({
-                                lat: lat,  // The data to send in the body
-                                lon: lon,
-                            }),
-                        })
-                            .then((response) => {
-                                return response.json();
-                            })
-                            .then(data => console.log("Fetch weather successful:", data))
-                            .catch(error => console.error("Error uploading file:", error));
-
+                fetch(`http://localhost:3001/fetch-weather`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json', // Add the content type header
+                    },
+                    body: JSON.stringify({
+                        lat: 38.9047,  // The data to send in the body
+                        lon: -77.0164,
+                    }),
+                })
+                    .then((response) => {
+                        return response.json();
                     })
-                });
+                    .then(data => console.log("Fetch weather successful:", data))
+                    .catch(error => console.error("Error uploading file:", error));
+
                 break;
             case "getweather":
-                const result = await WeatherService.getPreviousWeatherData();
-                for (let i = 0; i < result.rows.length; i++) {
-                    console.log("Weather : ", result.rows[i].weather, " Lat : ", result.rows[i].lat, " Lon : ", result.rows[i].lon, " Created at : ", result.rows[i].created_at);
-                }
+                fetch(`http://localhost:3001/get-weather`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log("Get weather successful:");
+                        console.table(data);  // Display data in a table format
+                    })
+                    .catch(error => console.error("Get weather failed:", error));
                 break;
+
 
             case "exit":
                 console.log("Exiting console...");
