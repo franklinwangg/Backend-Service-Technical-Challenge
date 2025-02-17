@@ -2,15 +2,19 @@ const client = require('../config/db');
 
 const addWeatherData = async (weatherData) => {
     try {
-        // const { weather, lat, lon } = req.body;
-        const { weather, lat, lon } = weatherData;  // Destructure lat and lon from the body of the request
-        
-        const result = await client.query("INSERT INTO weather_data (weather, lat, lon) VALUES ($1, $2, $3)", [weather, lat, lon]);
-        console.log("result : ", result);
-        
+        const { weather, date, temperature, lat, lon } = weatherData;
+
+        const result = await client.query("INSERT INTO weather_data (weather, lat, lon, date, temperature) VALUES ($1, $2, $3, $4, $5)", [weather, lat, lon, date, temperature]);
+        return result;
     }
     catch (error) {
-        console.error('Error inserting weather data:', error.message);
+        if (error.code === '23505') { // MongoDB Duplicate Key Error Code
+            throw new Error("You've already inserted weather data for this time slot.");
+
+        } else {
+            throw new Error("Failed to add weather data : ", error.message);
+        }
+        return res.status(500);
     }
 };
 const getWeatherData = async (req, res) => {
@@ -20,8 +24,7 @@ const getWeatherData = async (req, res) => {
         res.status(200).json(allWeatherData);
     }
     catch (error) {
-        console.error("Error getting all previous weather data : ", error.message);
-        res.status(500).json({ error: "Failed to retrieve weather data" });
+        res.status(500).json({ error: "getweatherdata failed" });
     }
 };
 

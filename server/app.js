@@ -16,9 +16,9 @@ app.use(express.json());
 
 app.post('/fetch-weather', async (req, res) => {
     try {
-        await weatherService.fetchDataFromWebsite(req, res); // Call the weather service function
+        await weatherService.fetchWeather(req, res); // Call the weather service function
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch weather data' });
+        res.status(500).json({ error: '/fetch-weather endpoint failed' });
     }
 });
 
@@ -33,4 +33,5 @@ app.get('/get-weather', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`App is running on port ${PORT}`);
     cli.startCLI();
+    
 });

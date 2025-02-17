@@ -15,10 +15,7 @@ function startCLI() {
     console.log("Database Console Started. Type 'help' for commands.");
 
     rl.setPrompt("> ");
-    console.log("1");
     rl.prompt();
-    console.log("2");
-
 
     rl.on("line", async (line) => {
         const command = line.trim().toLowerCase();
@@ -36,17 +33,19 @@ function startCLI() {
                     }),
                 })
                     .then((response) => {
-                        return response.json();
+                        if(response.status == 500) {
+                            console.log("Data for next eight 3-hour increments in weather has already been fetched. Enter getweather to see your updated database!")
+                        }
+                        else {
+                            return response.json();
+                        }
                     })
-                    .then(data => console.log("Fetch weather successful:", data))
-                    .catch(error => console.error("Error uploading file:", error));
 
                 break;
             case "getweather":
                 fetch(`http://localhost:3001/get-weather`)
                     .then((response) => response.json())
-                    .then((data) => {
-                        console.log("Get weather successful:");
+                    .then((data) => {                        
                         console.table(data);  // Display data in a table format
                     })
                     .catch(error => console.error("Get weather failed:", error));
