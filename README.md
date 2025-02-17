@@ -22,22 +22,23 @@ Functionalities :
 1. **Clone the repository**:  
    ```sh
    git clone https://github.com/your-username/weather-app.git
-   cd weather-app
+   cd server
    ```  
 2. **Install dependencies**:  
    ```sh
    npm install
    ```  
 3. **Set up environment variables**:  
-   Create a `.env` file and add:  
-   ```env
-   OPEN_WEATHER_API_KEY=your_api_key
-   DATABASE_URL=postgres://user:password@localhost:5432/weatherdb
-   ```  
+   Create a `.env` file inside the \server directory and paste the secret keys into it
+
 4. **Run the project**:  
-   ```sh
+   cd server
    npm start
-   ```
+   
+5. **Commands**:  
+   Type "fetchweather" to post the weather data(including weather, time of day, latitude, longitude, and temperature) of London, England for three-hour increments for the next twenty-four hours to the database. (You will trigger an error if 24 hours has not passed since the last time this endpoint was triggered)
+
+   Type "getweather" to print a table of all the elements in the weather database so far. 
 
 ---
 

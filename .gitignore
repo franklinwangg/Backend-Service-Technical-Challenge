@@ -1,5 +1,6 @@
 goals.txt
 goalsNext15Mins.txt
+goalsNextHour.txt
 /oldCode.txt
 .env
 /server/node_modules

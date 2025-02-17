@@ -11,7 +11,6 @@ const PORT = 3001;
 
 app.use(cors());
 
-// app.use("/fetchWeather", fetchWeather);
 app.use(express.json());
 
 app.post('/fetch-weather', async (req, res) => {
